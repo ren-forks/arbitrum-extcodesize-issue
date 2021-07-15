@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 import { ContractA__factory } from "../typechain";
 
-export async function deployGateways() {
+export async function deployContractA() {
     const signers = await ethers.getSigners();
 
     console.log("Deploying from", await signers[0].getAddress());
@@ -11,12 +11,14 @@ export async function deployGateways() {
         signers[0]
     )) as ContractA__factory;
 
-    const contract = await factory.deploy();
+    const contract = await factory.deploy({
+        gasLimit: 10000000,
+    });
     await contract.deployed();
 }
 
 if (require.main === module) {
-    deployGateways()
+    deployContractA()
         .then(async () => {
             process.exit(0);
         })
